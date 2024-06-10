@@ -4,18 +4,21 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    def app = docker.build("my-flask-app")
+                    // Docker imajını oluştur
+                    def dockerImage = docker.build('my-flask-app')
                 }
             }
         }
         stage('Test') {
             steps {
+                // Testlerin çalıştırılması
                 sh 'echo "Running tests..."'
             }
         }
         stage('Deploy') {
             steps {
                 script {
+                    // Kubernetes YAML dosyalarının uygulanması
                     sh 'kubectl apply -f deployment.yaml'
                     sh 'kubectl apply -f service.yaml'
                 }
@@ -24,7 +27,9 @@ pipeline {
     }
     post {
         always {
+            // Çalışma alanının temizlenmesi
             cleanWs()
         }
     }
 }
+
