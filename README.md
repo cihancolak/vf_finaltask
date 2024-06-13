@@ -333,7 +333,7 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
 
 
----
+
 
 apiVersion: v1
 kind: Service
@@ -395,7 +395,7 @@ data:
       - static_configs:
         - targets:
           - alertmanager:9093
----
+
     scrape_configs:
       - job_name: 'prometheus'
         static_configs:
