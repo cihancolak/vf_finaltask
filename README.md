@@ -311,7 +311,7 @@ Prometheus icin gerekli ayarlamalari yapalim
 
 app.py icin bu guncellemeyi yaptim
 
-```
+
 from flask import Flask, jsonify, request
 from prometheus_client import Counter, generate_latest, CONTENT_TYPE_LATEST
 
@@ -332,9 +332,9 @@ def metrics():
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
 
----
 
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -395,7 +395,7 @@ data:
       - static_configs:
         - targets:
           - alertmanager:9093
-
+---
     scrape_configs:
       - job_name: 'prometheus'
         static_configs:
@@ -405,7 +405,6 @@ data:
         static_configs:
         - targets: ['flask-app-service:5000']
 
----
 
 Prometheus için Kubernetes'te bir Service oluşturuluyor. Bu Service, Prometheus'un dış dünyaya açık hale gelmesini sağlar.
 
@@ -479,10 +478,10 @@ minikube service prometheus-server-ext --url
 
 
 
- ![alt text](https://i.imgur.com/1VvPhcz.png )
+![alt text](https://i.imgur.com/1VvPhcz.png )
 
 
-  ![alt text](https://i.imgur.com/j28Knee.png)
+![alt text](https://i.imgur.com/j28Knee.png)
 
 
 ![alt text](https://i.imgur.com/116oVj8.png  )
