@@ -372,11 +372,24 @@ minikube service prometheus-server-ext --url
 
  ![alt text](https://i.imgur.com/eKmwPIE.png)
 
+ ![alt text](https://i.imgur.com/eKmwPIE.png)
+
+
+ ![alt text](https://i.imgur.com/1VvPhcz.png )
+
+
+  ![alt text](https://i.imgur.com/j28Knee.png)
+
+
+![alt text](https://i.imgur.com/116oVj8.png  )
 
 
 Grafana ile bağlantı kurulduktan sonra, Prometheus tarafından toplanan metriklerin görselleştirilmesi için Grafana'yı yapılandıracağız.
 Bu işlem, Prometheus'tan gelen verilerin Grafana panolarında anlamlı grafikler ve görseller şeklinde sunulmasını sağlayacaktır. 
 Bu sayede sistem performansını ve uygulama sağlığını daha etkin bir şekilde izleyebilir ve analiz edebiliriz.
+
+
+  ![alt text](https://i.imgur.com/32Mf3DZ.png)
 
  ![alt text](https://i.imgur.com/0KPYFue.png)
 
