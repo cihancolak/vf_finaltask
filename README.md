@@ -370,9 +370,7 @@ minikube service prometheus-server-ext --url
 
 ```
 
- ![alt text](https://i.imgur.com/eKmwPIE.png)
 
- ![alt text](https://i.imgur.com/eKmwPIE.png)
 
 
  ![alt text](https://i.imgur.com/1VvPhcz.png )
