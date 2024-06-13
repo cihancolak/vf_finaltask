@@ -332,6 +332,7 @@ def metrics():
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
 
+---
 
 ---
 apiVersion: v1
@@ -347,7 +348,6 @@ spec:
   selector:
     app: prometheus
 
----
 
 apiVersion: apps/v1
 kind: Deployment
@@ -378,8 +378,7 @@ spec:
           name: prometheus-server-conf
           defaultMode: 420
 
----
----
+
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -408,41 +407,74 @@ data:
 
 ---
 
+Prometheus için Kubernetes'te bir Service oluşturuluyor. Bu Service, Prometheus'un dış dünyaya açık hale gelmesini sağlar.
+
+    prometheus adında bir Kubernetes Service oluşturuluyor.
+    port ve targetPort değerleri 9090 olarak belirlenmiş. Bu, Prometheus'un varsayılan portu olup, bu port üzerinden Prometheus'a erişim sağlanacaktır.
+
+Deployment Tanımı (Deployment):
+
+Prometheus'un Kubernetes üzerinde çalıştırılması için bir Deployment oluşturuluyor. Deployment, Prometheus konteynerinin yönetimini ve ölçeklendirilmesini sağlar.
+
+    prometheus adında bir Kubernetes Deployment oluşturuluyor.
+    Konteynerin kullanacağı imaj prom/prometheus:latest olarak belirlenmiş. Bu, Prometheus'un resmi Docker imajıdır.
+    Konteyner 9090 numaralı portu dinlemek üzere yapılandırılmıştır. Bu port, Service tanımındaki port ile eşleşir ve dış dünyadan erişim sağlar.
+    prometheus.yml dosyası, ConfigMap'ten yüklenerek /etc/prometheus/prometheus.yml içine monte ediliyor. Bu dosya, Prometheus'un yapılandırma ayarlarını içerir ve özelleştirilmiş scrape (veri toplama) ayarlarını barındırır.
+
+ConfigMap Tanımı (ConfigMap):
+
+Prometheus'un yapılandırma dosyasını içeren Kubernetes ConfigMap'i oluşturuluyor. ConfigMap, Prometheus'un nasıl çalışacağına dair ayarları içerir.
+
+    prometheus-server-conf adında bir Kubernetes ConfigMap oluşturuluyor.
+    ConfigMap içinde prometheus.yml dosyası bulunur. Bu dosya, scrape (veri toplama) aralıkları, alerting (alarm) ayarları gibi Prometheus'un genel ayarlarını tanımlar.
+
+prometheus.yml Dosyası Açıklaması:
+
+Prometheus'un yapılandırma dosyası olan prometheus.yml, Prometheus'un nasıl çalışacağını ve hangi metrikleri toplayacağını belirler.
+
+    scrape_interval ve evaluation_interval parametreleri, Prometheus'un ne sıklıkla veri toplayacağını ve bu verileri ne sıklıkla değerlendireceğini belirler.
+    alerting bölümünde Alertmanager konfigürasyonu tanımlanır (alertmanager:9093). Bu, Prometheus'un alarm durumlarını yönetmek için Alertmanager servisiyle nasıl iletişim kuracağını gösterir.
+    scrape_configs altında prometheus ve flask-app olmak üzere iki ayrı scrape job tanımlanmıştır:
+        prometheus job'u, Prometheus'un kendi metriklerini toplamak için kullanılır.
+        flask-app job'u, Kubernetes üzerindeki Flask uygulamanızın metriklerini toplamak için tanımlanmıştır. Bu kısım, kendi uygulamanızın Service ismi ve portu ile değiştirilmelidir (flask-app-service:5000).
+
+Bu YAML dosyası, Prometheus'un Kubernetes üzerinde etkili bir şekilde yapılandırılmasını sağlar ve metrik verilerinin toplanması ile alarm kurallarının yönetilmesine olanak tanır.
+
 
 
 Bu bolumde monitor etmek icin prometheus ve metricsleri grafana ile nasil gorsellestirdigimizi gosterecem:
 
-```
+
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo update
 
 helm install prometheus prometheus-community/prometheus
-```
-
-```
-kubectl expose service prometheus-server --type=NodePort --target-port=9090 --name=prometheus-server-ext
-```
 
 
-```
 
 kubectl expose service prometheus-server --type=NodePort --target-port=9090 --name=prometheus-server-ext
-```
+
+
+
+
+
+kubectl expose service prometheus-server --type=NodePort --target-port=9090 --name=prometheus-server-ext
+
 
 Check this command 
 
-```
+
 kubectl get svc
-```
+
 
 
 Prometheus setup ve running olduktan sonra 
 
-```
+
 
 minikube service prometheus-server-ext --url
 
-```
+
 
 
 
